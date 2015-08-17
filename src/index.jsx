@@ -1,6 +1,8 @@
 'use strict';
 
 var React = require('react')
+var { findDOMNode } = require('react-dom')
+
 var {getSelection, setSelection} = require('react/lib/ReactInputSelection')
 
 var InputMask = require('inputmask-core')
@@ -49,15 +51,15 @@ var MaskedInput = React.createClass({
   },
 
   _updateMaskSelection() {
-    this.mask.selection = getSelection(this.getDOMNode())
+    this.mask.selection = getSelection(findDOMNode(this))
   },
 
   _updateInputSelection() {
-    setSelection(this.getDOMNode(), this.mask.selection)
+    setSelection(findDOMNode(this), this.mask.selection)
   },
 
   _onChange(e) {
-    // console.log('onChange', JSON.stringify(getSelection(this.getDOMNode())), e.target.value)
+    // console.log('onChange', JSON.stringify(getSelection(findDOMNode(this))), e.target.value)
 
     var maskValue = this.mask.getValue()
     if (e.target.value != maskValue) {
@@ -80,7 +82,7 @@ var MaskedInput = React.createClass({
   },
 
   _onKeyDown(e) {
-    // console.log('onKeyDown', JSON.stringify(getSelection(this.getDOMNode())), e.key, e.target.value)
+    // console.log('onKeyDown', JSON.stringify(getSelection(findDOMNode(this))), e.key, e.target.value)
 
     if (isUndo(e)) {
       e.preventDefault()
@@ -116,7 +118,7 @@ var MaskedInput = React.createClass({
   },
 
   _onKeyPress(e) {
-    // console.log('onKeyPress', JSON.stringify(getSelection(this.getDOMNode())), e.key, e.target.value)
+    // console.log('onKeyPress', JSON.stringify(getSelection(findDOMNode(this))), e.key, e.target.value)
 
     // Ignore modified key presses
     if (e.metaKey || e.altKey || e.ctrlKey) { return }
@@ -131,7 +133,7 @@ var MaskedInput = React.createClass({
   },
 
   _onPaste(e) {
-    // console.log('onPaste', JSON.stringify(getSelection(this.getDOMNode())), e.clipboardData.getData('Text'), e.target.value)
+    // console.log('onPaste', JSON.stringify(getSelection(findDOMNode(this))), e.clipboardData.getData('Text'), e.target.value)
 
     e.preventDefault()
     this._updateMaskSelection()
